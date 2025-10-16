@@ -1,10 +1,10 @@
 # Conversor de temperaturas
 
-# f"{temperatura}" es para usar la variable dentro del print y convertirlo a float
-# :.2f es lo mismo dentro del print pero lo convierte a float y mostrará dos decimales
+# f"{temperatura}" es para usar la variable dentro del print
+# :.2f es lo mismo dentro del print pero mostrará dos decimales
 
 temp = input("Ingrese la temperatura del lugar donde reside: ")
-temperatura = float(temp)
+temperatura: float = float(temp)
 
 dato = input("¿La temperatura ingresada está en Fahrenheit (F) o Celsius (C)? ")
 
