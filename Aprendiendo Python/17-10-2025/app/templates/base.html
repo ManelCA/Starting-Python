@@ -1,32 +1,102 @@
-<html>
+<!doctype html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     {% if title %}
-    <title>{{ title }} - microblog</title>
+      <title>{{ title }} - microblog</title>
     {% else %}
-    <title>microblog</title>
+      <title>microblog</title>
     {% endif %}
+
+    <!-- Bootstrap CSS desde CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <style>
+      body {
+        background-color: #f8f9fa; /* gris muy claro */
+        color: #333;
+      }
+
+      .navbar {
+        background-color: #e9ecef; /* gris claro */
+      }
+
+      .navbar-brand {
+        font-weight: bold;
+      }
+
+      .flash-message {
+        border-left: 4px solid #0d6efd;
+        background-color: #eef4ff;
+        color: #0d6efd;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0.25rem;
+      }
+
+      footer {
+        margin-top: 4rem;
+        padding: 1rem 0;
+        background-color: #e9ecef;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #6c757d;
+      }
+    </style>
   </head>
   <body>
-    <div>
-      Microblog:
-      <a href="{{ url_for('index') }}">Home</a>
-      <a href="{{ url_for('explore') }}">Explore</a>
-      {% if current_user.is_anonymous %}
-      <a href="{{ url_for('login') }}">Login</a>
-      {% else %}
-      <a href="{{ url_for('user', username=current_user.username) }}"
-        >Profile</a
-      >
-      <a href="{{ url_for('logout') }}">Logout</a>
-      {% endif %}
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Microblog</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('explore') }}">Explore</a>
+            </li>
+            {% if current_user.is_anonymous %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenedor principal -->
+    <div class="container mt-4">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
     </div>
-    <hr />
-    {% with messages = get_flashed_messages() %} {% if messages %}
-    <ul>
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %} {% endwith %} {% block content %}{% endblock %}
+
+    <!-- Pie de página opcional -->
+    <footer>
+      © 2025 Microblog. Todos los derechos reservados.
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

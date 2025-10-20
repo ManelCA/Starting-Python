@@ -1,27 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    {% if form %}
-    <form action="" method="post">
+<div class="mb-4">
+  <h2 class="mb-3">Hi, {{ current_user.username }}!</h2>
+
+  {% if form %}
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.post.label }}<br>
-            {{ form.post(cols=32, rows=4) }}<br>
-            {% for error in form.post.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
-    {% endif %}
-    {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
-    {% if prev_url %}
-    <a href="{{ prev_url }}">Newer posts</a>
-    {% endif %}
-    {% if next_url %}
-    <a href="{{ next_url }}">Older posts</a>
-    {% endif %}
+
+        <div class="mb-3">
+          {{ form.post.label(class="form-label") }}
+          {{ form.post(class="form-control", rows="4", placeholder="What's on your mind?") }}
+          {% for error in form.post.errors %}
+            <div class="form-text text-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+
+        <div class="d-grid d-md-flex justify-content-md-end">
+          {{ form.submit(class="btn btn-primary") }}
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Posts -->
+{% for post in posts %}
+  {% include '_post.html' %}
+{% endfor %}
+
+<!-- Pagination -->
+<nav class="mt-4 d-flex justify-content-between">
+  {% if prev_url %}
+    <a class="btn btn-outline-secondary" href="{{ prev_url }}">← Newer Posts</a>
+  {% else %}
+    <span></span>
+  {% endif %}
+
+  {% if next_url %}
+    <a class="btn btn-outline-secondary" href="{{ next_url }}">Older Posts →</a>
+  {% endif %}
+</nav>
 {% endblock %}
