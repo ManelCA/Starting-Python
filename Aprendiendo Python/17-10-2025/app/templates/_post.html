@@ -4,6 +4,8 @@
     <a href="{{ url_for('user', username=post.author.username) }}" class="fw-bold text-decoration-none text-dark">
       {{ post.author.username }}
     </a>
+    said {{ moment(post.timestamp).fromNow() }}
+    <br>
     <p class="mb-0 mt-1">{{ post.body }}</p>
   </div>
 </div>
